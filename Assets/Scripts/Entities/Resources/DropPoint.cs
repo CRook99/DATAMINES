@@ -13,6 +13,11 @@ public class DropPoint : MonoBehaviour, IInteractable
     private ResourceScriptableObject _secondaryResource;
     private PlayerInventory _player;
 
+    private void Awake()
+    {
+        _player = FindObjectOfType<PlayerInventory>();
+    }
+
     public void NewRequest(ResourceScriptableObject primary, ResourceScriptableObject secondary = null)
     {
         _primaryResource = primary;
@@ -38,17 +43,27 @@ public class DropPoint : MonoBehaviour, IInteractable
     private void UpdatePrimaryDisplay()
     {
         if (_primaryResource != null)
+        {
+            primaryRenderer.enabled = true;
             primaryRenderer.sprite = _primaryResource.Sprite;
+        }
         else
+        {
             primaryRenderer.enabled = false;
+        }
     }
     
     private void UpdateSecondaryDisplay()
     {
         if (_secondaryResource != null)
+        {
+            secondaryRenderer.enabled = true;
             secondaryRenderer.sprite = _secondaryResource.Sprite;
+        }
         else
+        {
             secondaryRenderer.enabled = false;
+        }
     }
 
     public void Interact()

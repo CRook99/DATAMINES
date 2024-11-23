@@ -52,7 +52,7 @@ namespace Entities.Player
         public List<ResourceScriptableObject> TakeResources(ResourceScriptableObject resource1, ResourceScriptableObject resource2)
         {
             List<ResourceScriptableObject> resources = new();
-            for (int i = _inventory.Count; i >= 0; i--)
+            for (int i = _inventory.Count - 1; i >= 0; i--)
             {
                 if (_inventory[i].Equals(resource1) || _inventory[i].Equals(resource2))
                 {
