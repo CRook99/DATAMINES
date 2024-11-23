@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -12,6 +13,8 @@ namespace Entities.Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : MonoBehaviour
     {
+        private const float RespawnTime = 1f;
+        
         [Header("Movement")]
         public float moveSpeed = 10f;
 
@@ -38,6 +41,8 @@ namespace Entities.Player
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         private bool _jumpHeld;
+        private Vector3 _lastGroundedPosition;
+        private bool _canMove = true;
         private Direction _faceDirection;
 
         void Awake()
@@ -48,6 +53,8 @@ namespace Entities.Player
 
         void Update()
         {
+            if (!_canMove) return;
+            
             HandleInput();
             CheckGround();
             ApplyCoyoteTime();
@@ -56,6 +63,8 @@ namespace Entities.Player
 
         void FixedUpdate()
         {
+            if (!_canMove) return;
+            
             Move();
             HandleJump();
         }
@@ -73,9 +82,13 @@ namespace Entities.Player
         private void CheckGround()
         {
             _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-            
+
             if (_isGrounded)
+            {
                 _coyoteTimeCounter = coyoteTime;
+                if (_canMove)
+                    _lastGroundedPosition = transform.position;
+            }
         }
 
         private void ApplyCoyoteTime()
@@ -113,6 +126,25 @@ namespace Entities.Player
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * jumpCutMultiplier);
             }
+        }
+
+        // When hitting spike
+        public void Respawn()
+        {
+            ToggleMovement(false);
+            StartCoroutine(WaitForRespawn());
+            
+            IEnumerator WaitForRespawn()
+            {
+                yield return new WaitForSeconds(RespawnTime);
+                ToggleMovement(true);
+                transform.position = _lastGroundedPosition;
+            }
+        }
+
+        public void ToggleMovement(bool toggle)
+        {
+            _canMove = toggle;
         }
 
         private void OnDrawGizmosSelected()
