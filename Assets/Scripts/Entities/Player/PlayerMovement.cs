@@ -1,106 +1,110 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController2D : MonoBehaviour
+
+namespace Entities.Player
 {
-    [Header("Movement")]
-    public float moveSpeed = 10f;
-
-    [Header("Jumping")]
-    public float jumpForce = 15f;
-    public float jumpBufferTime = 0.2f;
-    public float coyoteTime = 0.2f;
-
-    [Header("Jump Height Control")]
-    public float jumpCutMultiplier = 0.5f;
-
-    [Header("Ground Detection")]
-    public LayerMask groundLayer;
-    public float groundCheckRadius = 0.2f;
-    public Transform groundCheck;
-
-    private Rigidbody2D _rb;
-    private bool _isGrounded;
-    private float _jumpBufferCounter;
-    private float _coyoteTimeCounter;
-    private bool _jumpHeld;
-
-    void Awake()
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class PlayerMovement : MonoBehaviour
     {
-        _rb = GetComponent<Rigidbody2D>();
-    }
+        [Header("Movement")]
+        public float moveSpeed = 10f;
 
-    void Update()
-    {
-        HandleInput();
-        CheckGround();
-        ApplyCoyoteTime();
-        ApplyJumpBuffer();
-    }
+        [Header("Jumping")]
+        public float jumpForce = 15f;
+        public float jumpBufferTime = 0.2f;
+        public float coyoteTime = 0.2f;
 
-    void FixedUpdate()
-    {
-        Move();
-        HandleJump();
-    }
+        [Header("Jump Height Control")]
+        public float jumpCutMultiplier = 0.5f;
 
-    private void HandleInput()
-    {
-        if (Input.GetButtonDown("Jump"))
-            _jumpBufferCounter = jumpBufferTime;
-        if (Input.GetButtonUp("Jump"))
-            _jumpHeld = false;
-        if (Input.GetButton("Jump"))
-            _jumpHeld = true;
-    }
+        [Header("Ground Detection")]
+        public LayerMask groundLayer;
+        public float groundCheckRadius = 0.2f;
+        public Transform groundCheck;
 
-    private void CheckGround()
-    {
-        _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        
-        if (_isGrounded)
-            _coyoteTimeCounter = coyoteTime;
-    }
+        private Rigidbody2D _rb;
+        private bool _isGrounded;
+        private float _jumpBufferCounter;
+        private float _coyoteTimeCounter;
+        private bool _jumpHeld;
 
-    private void ApplyCoyoteTime()
-    {
-        if (!_isGrounded)
-            _coyoteTimeCounter -= Time.deltaTime;
-    }
-
-    private void ApplyJumpBuffer()
-    {
-        if (_jumpBufferCounter > 0)
-            _jumpBufferCounter -= Time.deltaTime;
-    }
-
-    private void Move()
-    {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        _rb.velocity = new Vector2(horizontal * moveSpeed, _rb.velocity.y);
-    }
-
-    private void HandleJump()
-    {
-        if (_jumpBufferCounter > 0 && _coyoteTimeCounter > 0)
+        void Awake()
         {
-            _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
-            _jumpBufferCounter = 0;
+            _rb = GetComponent<Rigidbody2D>();
         }
-        
-        if (!_jumpHeld && _rb.velocity.y > 0)
-        {
-            _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * jumpCutMultiplier);
-        }
-    }
 
-    private void OnDrawGizmosSelected()
-    {
-        // Draw ground check sphere in editor
-        if (groundCheck != null)
+        void Update()
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+            HandleInput();
+            CheckGround();
+            ApplyCoyoteTime();
+            ApplyJumpBuffer();
+        }
+
+        void FixedUpdate()
+        {
+            Move();
+            HandleJump();
+        }
+
+        private void HandleInput()
+        {
+            if (Input.GetButtonDown("Jump"))
+                _jumpBufferCounter = jumpBufferTime;
+            if (Input.GetButtonUp("Jump"))
+                _jumpHeld = false;
+            if (Input.GetButton("Jump"))
+                _jumpHeld = true;
+        }
+
+        private void CheckGround()
+        {
+            _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+            
+            if (_isGrounded)
+                _coyoteTimeCounter = coyoteTime;
+        }
+
+        private void ApplyCoyoteTime()
+        {
+            if (!_isGrounded)
+                _coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        private void ApplyJumpBuffer()
+        {
+            if (_jumpBufferCounter > 0)
+                _jumpBufferCounter -= Time.deltaTime;
+        }
+
+        private void Move()
+        {
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            _rb.velocity = new Vector2(horizontal * moveSpeed, _rb.velocity.y);
+        }
+
+        private void HandleJump()
+        {
+            if (_jumpBufferCounter > 0 && _coyoteTimeCounter > 0)
+            {
+                _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
+                _jumpBufferCounter = 0;
+            }
+            
+            if (!_jumpHeld && _rb.velocity.y > 0)
+            {
+                _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * jumpCutMultiplier);
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            // Draw ground check sphere in editor
+            if (groundCheck != null)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+            }
         }
     }
 }
