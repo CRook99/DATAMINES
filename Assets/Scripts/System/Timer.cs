@@ -10,10 +10,21 @@ public class Timer : MonoBehaviour
     private Image _bar;
     private float _remainingTime;
     
+    public static Timer Instance { get; private set; }
+    
     public delegate void DepleteEvent();
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+        
         _bar = GetComponent<Image>();
         _remainingTime = _maxTime;
     }
@@ -23,7 +34,7 @@ public class Timer : MonoBehaviour
     {
         // Add speed in which time decreases 
         _remainingTime -= _decreaseMultiplier * Time.deltaTime;
-        // _bar.fillAmount = (_remainingTime / 100f);
+        _bar.fillAmount = (_remainingTime / 100f);
         
         if (_remainingTime <= 0)
         {

@@ -4,7 +4,7 @@ using Entities.Player;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Entities
+namespace Entities.Resources
 {
     public class ResourcePoint : MonoBehaviour, IInteractable
     {

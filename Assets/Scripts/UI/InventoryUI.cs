@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Entities;
 using Entities.Player;
+using Entities.Resources;
 using UnityEngine;
 using UnityEngine.UI;
 
