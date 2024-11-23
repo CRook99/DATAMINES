@@ -5,20 +5,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D body;
-    private float speed = 10f;
+    private Rigidbody2D _body;
+    private float _speed = 10f;
 
     private void Awake()
     {
-        body = GetComponent<Rigidbody2D>(); // get reference to component
+        _body = GetComponent<Rigidbody2D>(); // get reference to component
     }
-    // // Start is called before the first frame update
-    // void Start()
-    // {
-    //     
-    // }
-    //
-    // Update is called once per frame
+    
     private void Update()
     {
         float xInput = 0f;
@@ -35,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
             yInput += 10;                   
         }
         
-        body.velocity = new Vector2(xInput * speed, yInput);
+        _body.velocity = new Vector2(xInput * _speed, yInput);
         
     }
 }
