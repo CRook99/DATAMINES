@@ -5,11 +5,11 @@ using TMPro;
 using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
-    
+    [SerializeField] private float _maxTime = 100f;
+    [SerializeField] private float _decreaseMultiplier = 5f;
     private Image _bar;
-    private float _maxTime = 100f;
     private float _remainingTime;
-    private float _decreaseMultiplier = 5f;
+    
     public delegate void DepleteEvent();
 
     void Awake()
