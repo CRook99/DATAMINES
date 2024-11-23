@@ -52,12 +52,21 @@ namespace Entities.Player
         public List<ResourceScriptableObject> TakeResources(ResourceScriptableObject resource1, ResourceScriptableObject resource2)
         {
             List<ResourceScriptableObject> resources = new();
+            bool r1 = false;
+            bool r2 = false;
             for (int i = _inventory.Count - 1; i >= 0; i--)
             {
-                if (_inventory[i].Equals(resource1) || _inventory[i].Equals(resource2))
+                if (_inventory[i].Equals(resource1) && !r1)
                 {
                     resources.Add(_inventory[i]);
                     RemoveResource(_inventory[i]);
+                    r1 = true;
+                }
+                else if (_inventory[i].Equals(resource2) && !r2)
+                {
+                    resources.Add(_inventory[i]);
+                    RemoveResource(_inventory[i]);
+                    r2 = true;
                 }
             }
             
