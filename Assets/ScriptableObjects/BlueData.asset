@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e129968d48124c489570fccb60d45e8e, type: 3}
   m_Name: BlueData
   m_EditorClassIdentifier: 
+  Id: 2
   Name: Blue Data
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: b0bbfae83aa61ac42a7912de8b7b082b, type: 3}

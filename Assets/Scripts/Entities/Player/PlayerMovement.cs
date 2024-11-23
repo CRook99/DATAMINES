@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace Entities.Player
 {
+    public enum Direction
+    {
+        LEFT,
+        RIGHT
+    }
+    
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : MonoBehaviour
     {
@@ -22,15 +28,22 @@ namespace Entities.Player
         public float groundCheckRadius = 0.2f;
         public Transform groundCheck;
 
+        public delegate void SideSwitchHandler(Direction direction);
+
+        public event SideSwitchHandler OnSideSwitch;
+        
+        
         private Rigidbody2D _rb;
         private bool _isGrounded;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         private bool _jumpHeld;
+        private Direction _faceDirection;
 
         void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _faceDirection = Direction.RIGHT;
         }
 
         void Update()
@@ -80,6 +93,11 @@ namespace Entities.Player
         private void Move()
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
+            if (Mathf.Abs(horizontal) > 0)
+            {
+                _faceDirection = horizontal > 0 ? Direction.RIGHT : Direction.LEFT;
+                OnSideSwitch?.Invoke(_faceDirection);
+            }
             _rb.velocity = new Vector2(horizontal * moveSpeed, _rb.velocity.y);
         }
 

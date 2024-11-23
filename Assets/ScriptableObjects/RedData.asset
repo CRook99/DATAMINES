@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e129968d48124c489570fccb60d45e8e, type: 3}
   m_Name: RedData
   m_EditorClassIdentifier: 
+  Id: 0
   Name: Red Data
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: ef67f9a3d5d583f42ac96db418cd130e, type: 3}
