@@ -11,7 +11,7 @@ namespace Entities.Player
         {
             if (Input.GetKeyDown(KeyCode.E) && _currentInteractable != null)
             {
-                _currentInteractable.Interact(this);
+                _currentInteractable.Interact();
             }
         }
 
