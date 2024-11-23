@@ -23,16 +23,12 @@ public class Timer : MonoBehaviour
     {
         // Add speed in which time decreases 
         _remainingTime -= _decreaseMultiplier * Time.deltaTime;
-        _bar.fillAmount = (_remainingTime / 100f);
+        // _bar.fillAmount = (_remainingTime / 100f);
         
         if (_remainingTime <= 0)
         {
             OnDepletion?.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-            AddTime(5f);
-        if (Input.GetKeyDown(KeyCode.J))
-            DecreaseTime(5f);
     }
 
     public void AddTime(float time)
