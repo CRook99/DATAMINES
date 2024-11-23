@@ -16,7 +16,7 @@ namespace Entities
             _playerInventory = FindObjectOfType<PlayerInventory>();
         }
 
-        public void Interact(PlayerInteraction _)
+        public void Interact()
         {
             _playerInventory.AddResource(resource);
         }
