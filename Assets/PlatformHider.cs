@@ -63,7 +63,7 @@ public class PlatformHider : MonoBehaviour
     
         if (boxCollider)
         {
-            boxCollider.isTrigger = true;
+            boxCollider.enabled = false;
         }
     }
     
@@ -75,7 +75,7 @@ public class PlatformHider : MonoBehaviour
         }
         if (boxCollider)
         {
-            boxCollider.isTrigger = false;
+            boxCollider.enabled = true;
             Physics2D.SyncTransforms();
         }
     }
