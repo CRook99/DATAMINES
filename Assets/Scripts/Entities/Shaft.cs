@@ -1,68 +1,69 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Entities.Player;
 using UnityEngine;
 
-public class Shaft : MonoBehaviour
+public class Shaft : MonoBehaviour, IInteractable
 {
+    [SerializeField] private BoxCollider2D leftWall;
+    [SerializeField] private BoxCollider2D rightWall;
+    [SerializeField] private Transform lowerTransform;
+    [SerializeField] private Transform upperTransform;
+    
     [Header("Movement Settings")]
     [SerializeField] private float _levelHeight = 1f;
     [SerializeField] private float _minLevel = -10f;
     [SerializeField] private float _maxLevel = 10f;
     [SerializeField] private float _travelSpeed = 3f;
     
-    private float _currentLevel;
+    private int _currentLevel; // 0 or 1
     private float _targetLevel;
     private Vector3 _initialPosition;
     private bool _isMoving;
+    private PlayerMovement _player;
     
     void Awake()
     {
-        _initialPosition = transform.position;
-        _currentLevel = _initialPosition.y;
-        _targetLevel = _currentLevel;
+        transform.position = lowerTransform.position;
+        _player = FindObjectOfType<PlayerMovement>();
     }
 
-    void Update()
+    public void Interact()
     {
-        HandleInput();
+        StartCoroutine(MoveToLevel());
     }
 
-    private void HandleInput()
+    private void OpenDoors()
     {
-        if (_isMoving) return;
-        
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            // Check if we haven't reached the max level
-            if (_targetLevel < _maxLevel)
-            {
-                _targetLevel += _levelHeight;
-                StartCoroutine(MoveToLevel());
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            // Check if we haven't reached the ground floor
-            if (_targetLevel > _minLevel)
-            {
-                _targetLevel -= _levelHeight;
-                StartCoroutine(MoveToLevel());
-            }
-        }
+        leftWall.enabled = false;
+        rightWall.enabled = false;
+    }
+
+    private void CloseDoors()
+    {
+        leftWall.enabled = true;
+        rightWall.enabled = true;
     }
 
     private IEnumerator MoveToLevel()
     {
+        _player.transform.position =
+            new Vector3(transform.position.x, _player.transform.position.y, _player.transform.position.z);
+        CloseDoors();
+        var startY = _currentLevel == 1 ? upperTransform.position.y : lowerTransform.position.y;
+        var targetY = _currentLevel == 0 ? upperTransform.position.y : lowerTransform.position.y;
         _isMoving = true;
         float elapsed = 0f;
-        float startY = transform.position.y;
         while (elapsed < _travelSpeed)
         {
             elapsed += Time.deltaTime;
-            var yPos = Mathf.Lerp(startY, _targetLevel, elapsed / _travelSpeed);
+            var yPos = Mathf.Lerp(startY, targetY, elapsed / _travelSpeed);
             transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
             yield return null;
         }
         _isMoving = false;
+        _currentLevel = 1 - _currentLevel; // Flip
+        OpenDoors();
     }
 }
