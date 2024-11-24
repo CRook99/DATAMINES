@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class TransitionScene : MonoBehaviour
 {
-
-
     void Update()
     {
         if (Input.anyKey )
