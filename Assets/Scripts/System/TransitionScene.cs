@@ -7,7 +7,7 @@ public class TransitionScene : MonoBehaviour
 {
     void Update()
     {
-        if (Input.anyKey )
+        if (Input.anyKeyDown)
         {
             LoadNextScene();
         }

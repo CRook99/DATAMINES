@@ -90,6 +90,7 @@ namespace Entities.Resources
             _primaryResource = null;
             _secondaryResource = null;
             timerText.enabled = false;
+            Timer.Instance.DecreaseTime(5f);
         }
     
         private void UpdateDisplay()

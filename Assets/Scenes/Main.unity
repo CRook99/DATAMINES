@@ -1748,21 +1748,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intensities:
-  - Seconds: 45
+  - Seconds: 30
     RequestInterval: 17
     RequestTime: 45
     DoubleChance: 0.2
-  - Seconds: 45
+  - Seconds: 30
     RequestInterval: 14
     RequestTime: 40
     DoubleChance: 0.5
-  - Seconds: 45
+  - Seconds: 30
     RequestInterval: 11
     RequestTime: 30
     DoubleChance: 0.8
   - Seconds: 9999
-    RequestInterval: 9
-    RequestTime: 30
+    RequestInterval: 8
+    RequestTime: 20
     DoubleChance: 0.9
 --- !u!4 &593887027
 Transform:
