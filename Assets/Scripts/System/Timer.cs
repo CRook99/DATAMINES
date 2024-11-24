@@ -5,10 +5,12 @@ using TMPro;
 using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
-    [SerializeField] private float _maxTime = 100f;
-    [SerializeField] private float _decreaseMultiplier = 5f;
+    [SerializeField] private float _maxTime;
+    [SerializeField] private float _decreaseMultiplier;
     private Image _bar;
     private float _remainingTime;
+
+    public float Percent => _remainingTime / _maxTime;
     
     public static Timer Instance { get; private set; }
     
