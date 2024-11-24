@@ -13,12 +13,10 @@ namespace Entities.Player
         public int InventoryCount => _inventory.Count;
         
         private List<ResourceScriptableObject> _inventory;
-        // private AudioSource _DropItemSound;
 
         private void Awake()
         {
             _inventory = new();
-            // _DropItemSound = GetComponent<AudioSource>();
         }
 
         private void Update()
@@ -26,7 +24,6 @@ namespace Entities.Player
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 DropResource();
-                // _DropItemSound.Play();
             }
         }
 
@@ -34,7 +31,6 @@ namespace Entities.Player
         {
             if (_inventory.Count == inventorySize)
             { 
-                Debug.Log("Too many data packs!");
                 return;
             }
             
@@ -48,10 +44,7 @@ namespace Entities.Player
             {
                 _inventory.Remove(resource);
                 InventoryUI.Instance.Refresh(_inventory);
-                return;
             }
-            
-            Debug.Log($"Could not find resource with ID {resource.Id}");
         }
 
         public List<ResourceScriptableObject> TakeResources(ResourceScriptableObject resource1, ResourceScriptableObject resource2)

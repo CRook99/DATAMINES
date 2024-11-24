@@ -25,7 +25,6 @@ namespace Entities.Resources
         {
             _playerInventory.AddResource(resource);
             AudioSource.Play();
-            Debug.unityLogger.Log(AudioSource.clip.name);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
