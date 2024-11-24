@@ -12,10 +12,12 @@ namespace Entities.Player
         [SerializeField] private int inventorySize;
         
         private List<ResourceScriptableObject> _inventory;
+        // private AudioSource _DropItemSound;
 
         private void Awake()
         {
             _inventory = new();
+            _DropItemSound = GetComponent<AudioSource>();
         }
 
         private void Update()
@@ -23,6 +25,7 @@ namespace Entities.Player
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 DropResource();
+                // _DropItemSound.Play();
             }
         }
 

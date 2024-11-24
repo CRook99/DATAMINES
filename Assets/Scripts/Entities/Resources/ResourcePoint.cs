@@ -12,16 +12,20 @@ namespace Entities.Resources
         [SerializeField] private ResourceScriptableObject resource;
         [SerializeField] private SpriteRenderer spriteRenderer;
         private PlayerInventory _playerInventory;
+        private AudioSource AudioSource;
 
         private void Awake()
         {
             _playerInventory = FindObjectOfType<PlayerInventory>();
             spriteRenderer.sprite = resource.DispenserSprite;
+            AudioSource = GetComponent<AudioSource>(); // Ensure the AudioSource is fetched
         }
 
         public void Interact()
         {
             _playerInventory.AddResource(resource);
+            AudioSource.Play();
+            Debug.unityLogger.Log(AudioSource.clip.name);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
