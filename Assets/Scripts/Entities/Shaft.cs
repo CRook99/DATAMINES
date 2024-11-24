@@ -14,6 +14,8 @@ public class Shaft : MonoBehaviour, IInteractable
     [SerializeField] private Transform upperTransform;
     [SerializeField] private Transform movementLock;
     [SerializeField] private float travelSpeed;
+    [SerializeField] private float audioFadeOutDuration = 0.5f; // Duration for audio fade out
+    [SerializeField] [Range(0f, 1f)] private float slowdownStartPoint = 0.6f; // When to start slowing down (0.8 = 80%)
     private AudioSource _shaftAudio;
     
     private int _currentLevel; // 0 or 1
@@ -21,13 +23,17 @@ public class Shaft : MonoBehaviour, IInteractable
     private Vector3 _initialPosition;
     private bool _isMoving;
     private PlayerMovement _player;
+    private float _initialVolume; 
     
     void Awake()
     {
         transform.position = lowerTransform.position;
         _player = FindObjectOfType<PlayerMovement>();
         _shaftAudio = GetComponent<AudioSource>();
-
+        if (_shaftAudio != null)
+        {
+            _initialVolume = _shaftAudio.volume; 
+        }
     }
 
     public void Interact()
@@ -52,6 +58,27 @@ public class Shaft : MonoBehaviour, IInteractable
         rightWall.enabled = true;
     }
 
+    private IEnumerator FadeOutAudio()
+    {
+        if (_shaftAudio != null)
+        {
+            float startVolume = _shaftAudio.volume;
+            float elapsedTime = 0f;
+
+            while (elapsedTime < audioFadeOutDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                float normalizedTime = elapsedTime / audioFadeOutDuration;
+                _shaftAudio.volume = Mathf.Lerp(startVolume, 0f, normalizedTime);
+                yield return null;
+            }
+
+            _shaftAudio.Stop();
+            _shaftAudio.volume = _initialVolume; 
+            _shaftAudio.pitch = 1f; 
+        }
+    }
+
     private IEnumerator MoveToLevel()
     {
         _player.transform.position =
@@ -63,38 +90,39 @@ public class Shaft : MonoBehaviour, IInteractable
         if (_shaftAudio != null)
         {
             _shaftAudio.loop = true;
+            _shaftAudio.volume = _initialVolume; 
             _shaftAudio.Play();
         }
         
         float elapsed = 0f;
         
-        float progress = 0f;
-        
-        
         while (elapsed < travelSpeed)
         {
             elapsed += Time.deltaTime;
-            var yPos = Mathf.Lerp(startY, targetY, elapsed / travelSpeed);
+            float progress = elapsed / travelSpeed;
+            var yPos = Mathf.Lerp(startY, targetY, progress);
             transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
             _player.transform.position =
                 new Vector3(_player.transform.position.x, movementLock.position.y, _player.transform.position.z);
             
             if (_shaftAudio != null)
             {
-                _shaftAudio.pitch = Mathf.Lerp(0.5f, 1.5f, progress); // Example: start slow and speed up
+                float pitchProgress = progress < slowdownStartPoint ? 
+                    progress : 
+                    (1f - progress) * (1f / (1f - slowdownStartPoint)); // Normalized slowdown
+                _shaftAudio.pitch = Mathf.Lerp(0.5f, 1.5f, pitchProgress);
             }
-            
             
             yield return null;
         }
+        
         _isMoving = false;
         _currentLevel = 1 - _currentLevel; // Flip
         
         if (_shaftAudio != null)
         {
             _shaftAudio.loop = false;
-            _shaftAudio.Stop();
-            _shaftAudio.pitch = 1f; // Reset pitch to normal
+            StartCoroutine(FadeOutAudio());
         }
         OpenDoors();
     }
