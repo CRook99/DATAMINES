@@ -17,12 +17,12 @@ public class PlatformHider : MonoBehaviour
     private float _hideTimer;
     
     
-    void Start()
+    void Awake()
     {
         _timer = setHideInterval;
         _hideTimer = setHideTimer;
         spriteRenderer = platform.GetComponent<SpriteRenderer>();
-        boxCollider = platform.GetComponent<BoxCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         if (spriteRenderer)
         {
             originalColor = spriteRenderer.color;
@@ -57,12 +57,13 @@ public class PlatformHider : MonoBehaviour
         if (spriteRenderer)
         {
             Color transparentColor = spriteRenderer.color;
-            transparentColor.a = 0.5f;
+            transparentColor.a = 0.2f;
             spriteRenderer.color = transparentColor;
         }
     
-        if (boxCollider)
+        if (boxCollider != null)
         {
+            Debug.Log("off");
             boxCollider.enabled = false;
         }
     }
@@ -73,7 +74,7 @@ public class PlatformHider : MonoBehaviour
         {
             spriteRenderer.color = originalColor;
         }
-        if (boxCollider)
+        if (boxCollider != null)
         {
             boxCollider.enabled = true;
             Physics2D.SyncTransforms();

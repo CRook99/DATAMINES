@@ -37,7 +37,7 @@ namespace Entities.Player
         
         
         private Rigidbody2D _rb;
-        private bool _isGrounded;
+        [SerializeField] private bool _isGrounded;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         private bool _jumpHeld;
