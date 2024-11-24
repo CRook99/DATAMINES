@@ -41,6 +41,11 @@ namespace Entities.Resources
             if (RequestTimer > 0f)
             {
                 RequestTimer -= Time.deltaTime;
+                if (RequestTimer < 10f)
+                {
+                    timerText.outlineColor = Color.red;
+                    timerText.color = Color.red;
+                }
                 if (RequestTimer < 0f)
                 {
                     ExpireRequest();
