@@ -41,17 +41,24 @@ namespace Entities.Player
         
         private Rigidbody2D _rb;
         [SerializeField] private bool _isGrounded;
+        [SerializeField] private bool _wasGrounded;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         private bool _jumpHeld;
         private Vector3 _lastGroundedPosition;
         private bool _canMove = true;
         private Direction _faceDirection;
+        
+        private AudioSource _jumpLandAudio;
+        private AudioSource _runningAudio;
+        [SerializeField] private float runningAudioVolume;
 
         void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _faceDirection = Direction.RIGHT;
+            _jumpLandAudio = GetComponents<AudioSource>()[0];
+            _runningAudio = GetComponents<AudioSource>()[1];
         }
 
         void Update()
@@ -91,7 +98,12 @@ namespace Entities.Player
                 _coyoteTimeCounter = coyoteTime;
                 if (_canMove)
                     _lastGroundedPosition = transform.position;
+                if (!_wasGrounded)
+                {
+                    _jumpLandAudio.Play();
+                }
             }
+            _wasGrounded = _isGrounded;
         }
 
         private void ApplyCoyoteTime()
@@ -109,6 +121,8 @@ namespace Entities.Player
         private void Move()
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
+            
+            
 
             if (_isGrounded)
             {
@@ -133,7 +147,17 @@ namespace Entities.Player
             }
             
             _animator.SetFloat(Speed, Mathf.Abs(_rb.velocity.x));
+
+            if (_isGrounded && (_rb.velocity.x > 0 || _rb.velocity.x < 0))
+            {
+                _runningAudio.volume = runningAudioVolume;
+            }
+            else
+            {
+                _runningAudio.volume = 0f;
+            }
         }
+        
 
 
         private void HandleJump()
