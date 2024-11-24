@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
-  jumpForce: 12
+  jumpForce: 15
   jumpBufferTime: 0.1
   coyoteTime: 0.1
   jumpCutMultiplier: 0.6
@@ -184,7 +184,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2.5
+  m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: 042782d3979eaa34db7d48b73f81e876, type: 2}
   m_IncludeLayers:
     serializedVersion: 2

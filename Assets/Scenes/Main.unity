@@ -16147,7 +16147,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2026721371549557137, guid: 536aae6616ddc054e89e77a1add4d675, type: 3}
       propertyPath: inventorySize
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2497506773863666166, guid: 536aae6616ddc054e89e77a1add4d675, type: 3}
       propertyPath: m_LocalPosition.x
