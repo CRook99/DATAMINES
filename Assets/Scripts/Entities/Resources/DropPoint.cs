@@ -80,7 +80,7 @@ namespace Entities.Resources
 
         private void FulfilRequest()
         {
-            Timer.Instance.AddTime(10f);
+            Timer.Instance.AddTime(15f);
             RequestTimer = 0f;
             timerText.enabled = false;
         }
