@@ -106,13 +106,28 @@ namespace Entities.Player
         private void Move()
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
+
+            if (_isGrounded)
+            {
+                // Full control on the ground
+                _rb.velocity = new Vector2(horizontal * moveSpeed, _rb.velocity.y);
+            }
+            else
+            {
+                // Limit control in the air
+                _rb.velocity = new Vector2(
+                    Mathf.Lerp(_rb.velocity.x, horizontal * moveSpeed, 0.4f), // Smooth air control
+                    _rb.velocity.y
+                );
+            }
+
             if (Mathf.Abs(horizontal) > 0)
             {
                 _faceDirection = horizontal > 0 ? Direction.RIGHT : Direction.LEFT;
                 OnSideSwitch?.Invoke(_faceDirection);
             }
-            _rb.velocity = new Vector2(horizontal * moveSpeed, _rb.velocity.y);
         }
+
 
         private void HandleJump()
         {
