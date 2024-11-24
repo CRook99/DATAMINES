@@ -49,8 +49,17 @@ namespace UI
 
         private void Update()
         {
-            _desiredPosition = Camera.main.WorldToScreenPoint(_player.transform.position + offset); 
-            transform.position = Vector3.Lerp(transform.position, _desiredPosition, followSpeed * Time.deltaTime);
+            Vector3 worldPosWithOffset = _player.transform.position + offset;
+            Vector2 viewportPoint = Camera.main.WorldToViewportPoint(worldPosWithOffset);
+            RectTransform rt = GetComponent<RectTransform>();
+    
+            Vector2 canvasSize = rt.root.GetComponent<RectTransform>().sizeDelta;
+            Vector2 desiredPosition = new Vector2(
+                (viewportPoint.x * canvasSize.x) - (canvasSize.x * 0.5f),
+                (viewportPoint.y * canvasSize.y) - (canvasSize.y * 0.5f)
+            );
+    
+            rt.anchoredPosition = Vector2.Lerp(rt.anchoredPosition, desiredPosition, followSpeed * Time.deltaTime);
         }
 
         private void SideSwitch(Direction direction)

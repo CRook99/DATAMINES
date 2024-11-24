@@ -36,23 +36,30 @@ public class IndicatorUI : MonoBehaviour
         {
             DropPoint point = kvp.Key;
             Indicator indicator = kvp.Value;
+            RectTransform indicatorRT = indicator.GetComponent<RectTransform>();
 
             Vector3 viewportPos = _cam.WorldToViewportPoint(point.transform.position);
-            
+        
             Vector3 clampedViewportPos = new Vector3(
                 Mathf.Clamp(viewportPos.x, 0.01f, 0.99f),
                 Mathf.Clamp(viewportPos.y, 0.01f, 0.99f),
                 viewportPos.z
             );
-            
+        
             Vector3 screenPos = _cam.ViewportToScreenPoint(clampedViewportPos);
-            
+        
             screenPos.x = Mathf.Clamp(screenPos.x, margin, Screen.width - margin);
             screenPos.y = Mathf.Clamp(screenPos.y, margin, Screen.height - margin);
-            
+        
             Vector2 canvasPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(Canvas, screenPos, _cam, out canvasPos);
-            indicator.GetComponent<RectTransform>().anchoredPosition = canvasPos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                Canvas.GetComponent<RectTransform>(), // Use parent RectTransform instead of Canvas
+                screenPos,
+                _cam,
+                out canvasPos
+            );
+        
+            indicatorRT.localPosition = canvasPos;
         }
     }
 }
