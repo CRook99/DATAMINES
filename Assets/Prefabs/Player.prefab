@@ -93,6 +93,8 @@ MonoBehaviour:
     m_Bits: 64
   groundCheckRadius: 0.2
   groundCheck: {fileID: 8252810823624392339}
+  _flashInterval: 0.15
+  _spriteRenderer: {fileID: 2364688389380653954}
   _animator: {fileID: 2353926718102897392}
   _isGrounded: 0
   _wasGrounded: 0
