@@ -10,6 +10,7 @@ namespace Entities.Player
     public class PlayerInventory : MonoBehaviour
     {
         [SerializeField] private int inventorySize;
+        public int InventoryCount => _inventory.Count;
         
         private List<ResourceScriptableObject> _inventory;
         // private AudioSource _DropItemSound;

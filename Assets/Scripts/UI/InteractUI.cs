@@ -24,6 +24,7 @@ namespace UI
             
             _player = FindObjectOfType<PlayerMovement>();
             _text = GetComponent<TextMeshProUGUI>();
+            _text.text = "";
         }
 
         private void Update()

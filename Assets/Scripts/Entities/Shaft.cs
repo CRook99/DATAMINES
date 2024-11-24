@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Entities.Player;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -64,5 +65,19 @@ public class Shaft : MonoBehaviour, IInteractable
         _isMoving = false;
         _currentLevel = 1 - _currentLevel; // Flip
         OpenDoors();
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        var text = $"E - Travel";
+        InteractUI.Instance.Show(text);
+    }
+        
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+        InteractUI.Instance.Hide();
     }
 }
