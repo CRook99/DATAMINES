@@ -31,6 +31,9 @@ namespace Entities.Player
         public float groundCheckRadius = 0.2f;
         public Transform groundCheck;
 
+        [SerializeField] private float _flashInterval;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+
         [SerializeField] private Animator _animator;
         private static readonly int Speed = Animator.StringToHash("Speed");
 
@@ -177,14 +180,22 @@ namespace Entities.Player
         // When hitting spike
         public void Respawn()
         {
+            _rb.velocity = new Vector2(0f, 0f);
             ToggleMovement(false);
             StartCoroutine(WaitForRespawn());
             
             IEnumerator WaitForRespawn()
             {
-                yield return new WaitForSeconds(RespawnTime);
+                float elapsed = 0f;
+                while (elapsed < RespawnTime)
+                {
+                    _spriteRenderer.enabled = !_spriteRenderer.enabled;
+                    yield return new WaitForSeconds(_flashInterval);
+                    elapsed += _flashInterval;
+                }
                 ToggleMovement(true);
                 transform.position = _lastGroundedPosition;
+                _spriteRenderer.enabled = true;
             }
         }
 
