@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private float _maxTime;
     [SerializeField] private float _decreaseMultiplier;
-    private Image _bar;
+    [SerializeField] private Image fill;
     private float _remainingTime;
 
     public float Percent => _remainingTime / _maxTime;
@@ -27,7 +28,6 @@ public class Timer : MonoBehaviour
             Instance = this;
         }
         
-        _bar = GetComponent<Image>();
         _remainingTime = _maxTime;
     }
 
@@ -36,7 +36,7 @@ public class Timer : MonoBehaviour
     {
         // Add speed in which time decreases 
         _remainingTime -= _decreaseMultiplier * Time.deltaTime;
-        _bar.fillAmount = (_remainingTime / 100f);
+        fill.fillAmount = (_remainingTime / _maxTime);
         
         if (_remainingTime <= 0)
         {

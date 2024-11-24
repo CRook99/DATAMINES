@@ -14,6 +14,8 @@ namespace UI
         private Camera _cam;
         [SerializeField] private GameObject artRoot;
         [SerializeField] private TextMeshPro timerText;
+        [SerializeField] private SpriteRenderer _first;
+        [SerializeField] private SpriteRenderer _second;
 
         private void Awake()
         {
@@ -43,6 +45,8 @@ namespace UI
             {
                 artRoot.SetActive(true);
                 timerText.text = Formatting.FormatTime(_point.RequestTimer);
+                _first.sprite = _point.GetSprite(0);
+                _second.sprite = _point.GetSprite(1);
             }
         }
     }

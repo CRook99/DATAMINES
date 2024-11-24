@@ -56,6 +56,7 @@ public class Shaft : MonoBehaviour, IInteractable
     {
         leftWall.enabled = true;
         rightWall.enabled = true;
+        InteractUI.Instance.Hide();
     }
 
     private IEnumerator FadeOutAudio()
