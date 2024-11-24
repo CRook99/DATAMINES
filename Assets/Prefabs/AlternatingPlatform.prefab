@@ -131,14 +131,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   set: 0
-  interval: 2
-  solidTime: 1.5
+  interval: 1.5
+  solidTime: 1
   flashes: 3
   solidFlashAlpha: 0.7
   clearFlashAlpha: 0.4
   clearAlpha: 0.1
   _spriteRenderer: {fileID: 6576233194155742167}
-  platform: {fileID: 7924352429212176729}
 --- !u!61 &7444849541737918290
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace System
 {
     public class MusicHandling : MonoBehaviour
     {
+        [SerializeField] private float volume;
         public float FadeTime;
         public float IntensePercent;
         public AudioSource normalSource, intenseSource;
@@ -34,12 +36,12 @@ namespace System
             {
                 elapsed += Time.deltaTime;
                 var t = elapsed / FadeTime;
-                fadeOutSource.volume = Mathf.Lerp(1f, 0f, t);
-                fadeInSource.volume = Mathf.Lerp(0f, 1f, t);
+                fadeOutSource.volume = Mathf.Lerp(volume, 0f, t);
+                fadeInSource.volume = Mathf.Lerp(0f, volume, t);
                 yield return null;
             }
             fadeOutSource.volume = 0f;
-            fadeInSource.volume = 1f;
+            fadeInSource.volume = volume;
             _isFading = false;
         }
     }
