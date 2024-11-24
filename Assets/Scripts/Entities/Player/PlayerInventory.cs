@@ -17,7 +17,7 @@ namespace Entities.Player
         private void Awake()
         {
             _inventory = new();
-            _DropItemSound = GetComponent<AudioSource>();
+            // _DropItemSound = GetComponent<AudioSource>();
         }
 
         private void Update()
