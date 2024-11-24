@@ -35,6 +35,8 @@ namespace Managers
             IntensityManager.Instance.OnIntensityUp += Reload;
 
             Reload();
+            
+            GenerateRequest();
         }
         
         private void Update()

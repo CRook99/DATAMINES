@@ -210,7 +210,7 @@ RectTransform:
   m_GameObject: {fileID: 1632474083184986622}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 40, y: 40, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5774142206132354738}
@@ -235,8 +235,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   artRoot: {fileID: 6613059503873085261}
   timerText: {fileID: 7416733900305091644}
-  _firstRenderer: {fileID: 0}
-  _secondRenderer: {fileID: 0}
 --- !u!1 &3388863739561060845
 GameObject:
   m_ObjectHideFlags: 0
