@@ -11,10 +11,14 @@ namespace Managers
 {
     public class RequestManager : MonoBehaviour
     {
+        [SerializeField] private List<ResourceScriptableObject> possibleResources;
+        
         public static RequestManager Instance { get; private set; }
 
         private List<DropPoint> _dropPoints;
-        [SerializeField] private List<ResourceScriptableObject> possibleResources;
+        private float _interval;
+        private float _requestTime;
+        private float _timer;
 
         private void Awake()
         {
@@ -26,17 +30,42 @@ namespace Managers
             }
 
             _dropPoints = FindObjectsOfType<DropPoint>().ToList();
-        }
 
+            _timer = 0f;
+            IntensityManager.Instance.OnIntensityUp += Reload;
+
+            Reload();
+        }
+        
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                var resource1 = possibleResources.Random();
-                var resource2 = possibleResources.Random();
-                var point = _dropPoints.Random();
-                point.NewRequest(resource1, resource2);
+                GenerateRequest();
             }
+
+            _timer += Time.deltaTime;
+            if (_timer > _interval)
+            {
+                _timer = 0f;
+                GenerateRequest();
+            }
+        }
+        
+        public void GenerateRequest()
+        {
+            if (_dropPoints.TryGetRandomElement(p => !p.HasRequest, out DropPoint point))
+            {
+                var resource1 = possibleResources.Random();
+                var resource2 = (Random.value < IntensityManager.Instance.Intensity.DoubleChance) ? possibleResources.Random() : null;
+                point.NewRequest(_requestTime, resource1, resource2);
+            }
+        }
+
+        private void Reload()
+        {
+            _interval = IntensityManager.Instance.Intensity.RequestInterval;
+            _requestTime = IntensityManager.Instance.Intensity.RequestTime;
         }
     }
 }

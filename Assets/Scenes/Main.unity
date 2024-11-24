@@ -1363,7 +1363,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 692c631ffb4644c1a13f5a2dbd74a5d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RequestTimeLimit: 5
+  intensities:
+  - Seconds: 10
+    RequestInterval: 5
+    RequestTime: 45
+    DoubleChance: 0.2
+  - Seconds: 10
+    RequestInterval: 3
+    RequestTime: 30
+    DoubleChance: 0.6
+  - Seconds: 9999
+    RequestInterval: 1
+    RequestTime: 15
+    DoubleChance: 1
 --- !u!4 &593887027
 Transform:
   m_ObjectHideFlags: 0
