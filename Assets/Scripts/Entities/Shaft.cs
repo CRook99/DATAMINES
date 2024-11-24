@@ -11,6 +11,7 @@ public class Shaft : MonoBehaviour, IInteractable
     [SerializeField] private BoxCollider2D rightWall;
     [SerializeField] private Transform lowerTransform;
     [SerializeField] private Transform upperTransform;
+    [SerializeField] private Transform movementLock;
     [SerializeField] private float travelSpeed;
     
     private int _currentLevel; // 0 or 1
@@ -56,6 +57,8 @@ public class Shaft : MonoBehaviour, IInteractable
             elapsed += Time.deltaTime;
             var yPos = Mathf.Lerp(startY, targetY, elapsed / travelSpeed);
             transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
+            _player.transform.position =
+                new Vector3(_player.transform.position.x, movementLock.position.y, _player.transform.position.z);
             yield return null;
         }
         _isMoving = false;
