@@ -32,6 +32,10 @@ public class Shaft : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        if (_isMoving)
+        {
+            return;
+        }
         StartCoroutine(MoveToLevel());
         _shaftAudio.Play();
     }
