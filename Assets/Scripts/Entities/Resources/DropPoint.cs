@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Entities.Player;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Formatting = Utils.Formatting;
 
 namespace Entities.Resources
@@ -13,12 +14,12 @@ namespace Entities.Resources
         [SerializeField] private SpriteRenderer timerBackRenderer;
         [SerializeField] private SpriteRenderer primaryRenderer;
         [SerializeField] private SpriteRenderer secondaryRenderer;
-        [SerializeField] private float _requestTimer;
+        [SerializeField] public float RequestTimer;
 
         private ResourceScriptableObject _primaryResource;
         private ResourceScriptableObject _secondaryResource;
         private PlayerInventory _player;
-        public bool HasRequest => _requestTimer > 0f;
+        public bool HasRequest => RequestTimer > 0f;
     
         private void Awake()
         {
@@ -31,10 +32,10 @@ namespace Entities.Resources
         {
             UpdateDisplay();
             
-            if (_requestTimer > 0f)
+            if (RequestTimer > 0f)
             {
-                _requestTimer -= Time.deltaTime;
-                if (_requestTimer < 0f)
+                RequestTimer -= Time.deltaTime;
+                if (RequestTimer < 0f)
                 {
                     ExpireRequest();
                 }
@@ -45,7 +46,7 @@ namespace Entities.Resources
         {
             _primaryResource = primary;
             _secondaryResource = secondary;
-            _requestTimer = time;
+            RequestTimer = time;
             timerText.enabled = true;
         }
     
@@ -69,7 +70,7 @@ namespace Entities.Resources
         private void FulfilRequest()
         {
             Timer.Instance.AddTime(10f);
-            _requestTimer = 0f;
+            RequestTimer = 0f;
             timerText.enabled = false;
         }
 
@@ -102,7 +103,7 @@ namespace Entities.Resources
                 secondaryRenderer.enabled = false;
             }
 
-            timerText.text = Formatting.FormatTime(_requestTimer);
+            timerText.text = Formatting.FormatTime(RequestTimer);
             timerBackRenderer.enabled = HasRequest;
         }
     
@@ -112,6 +113,18 @@ namespace Entities.Resources
             foreach (var resource in taken)
             {
                 ReceiveResource(resource);
+            }
+        }
+
+        public Sprite GetSprite(int num)
+        {
+            if (num == 0)
+            {
+                return _primaryResource != null ? _primaryResource.Sprite : null;
+            }
+            else
+            {
+                return _secondaryResource != null ? _secondaryResource.Sprite : null;
             }
         }
     }
