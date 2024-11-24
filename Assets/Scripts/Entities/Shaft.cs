@@ -14,6 +14,7 @@ public class Shaft : MonoBehaviour, IInteractable
     [SerializeField] private Transform upperTransform;
     [SerializeField] private Transform movementLock;
     [SerializeField] private float travelSpeed;
+    private AudioSource _shaftAudio;
     
     private int _currentLevel; // 0 or 1
     private float _targetLevel;
@@ -25,11 +26,14 @@ public class Shaft : MonoBehaviour, IInteractable
     {
         transform.position = lowerTransform.position;
         _player = FindObjectOfType<PlayerMovement>();
+        _shaftAudio = GetComponent<AudioSource>();
+
     }
 
     public void Interact()
     {
         StartCoroutine(MoveToLevel());
+        _shaftAudio.Play();
     }
 
     private void OpenDoors()
@@ -52,7 +56,17 @@ public class Shaft : MonoBehaviour, IInteractable
         var startY = _currentLevel == 1 ? upperTransform.position.y : lowerTransform.position.y;
         var targetY = _currentLevel == 0 ? upperTransform.position.y : lowerTransform.position.y;
         _isMoving = true;
+        if (_shaftAudio != null)
+        {
+            _shaftAudio.loop = true;
+            _shaftAudio.Play();
+        }
+        
         float elapsed = 0f;
+        
+        float progress = 0f;
+        
+        
         while (elapsed < travelSpeed)
         {
             elapsed += Time.deltaTime;
@@ -60,10 +74,24 @@ public class Shaft : MonoBehaviour, IInteractable
             transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
             _player.transform.position =
                 new Vector3(_player.transform.position.x, movementLock.position.y, _player.transform.position.z);
+            
+            if (_shaftAudio != null)
+            {
+                _shaftAudio.pitch = Mathf.Lerp(0.5f, 1.5f, progress); // Example: start slow and speed up
+            }
+            
+            
             yield return null;
         }
         _isMoving = false;
         _currentLevel = 1 - _currentLevel; // Flip
+        
+        if (_shaftAudio != null)
+        {
+            _shaftAudio.loop = false;
+            _shaftAudio.Stop();
+            _shaftAudio.pitch = 1f; // Reset pitch to normal
+        }
         OpenDoors();
     }
     
