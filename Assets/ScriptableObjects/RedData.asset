@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Name: Red Data
-  Sprite: {fileID: 21300000, guid: ef67f9a3d5d583f42ac96db418cd130e, type: 3}
+  Sprite: {fileID: 21300000, guid: 7f5ba03c9b875fa4eb80dd30522b7a40, type: 3}
+  DispenserSprite: {fileID: 21300000, guid: 2f02202b031d566489a271a6232ee04b, type: 3}

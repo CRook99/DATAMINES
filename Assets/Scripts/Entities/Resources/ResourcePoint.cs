@@ -9,11 +9,13 @@ namespace Entities.Resources
     public class ResourcePoint : MonoBehaviour, IInteractable
     {
         [SerializeField] private ResourceScriptableObject resource;
+        [SerializeField] private SpriteRenderer renderer;
         private PlayerInventory _playerInventory;
 
         private void Awake()
         {
             _playerInventory = FindObjectOfType<PlayerInventory>();
+            renderer.sprite = resource.DispenserSprite;
         }
 
         public void Interact()

@@ -8,6 +8,7 @@ namespace Entities.Resources
         public int Id;
         public string Name;
         public Sprite Sprite;
+        public Sprite DispenserSprite;
 
         public override bool Equals(object obj)
         {
