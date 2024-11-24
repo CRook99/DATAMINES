@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class KillPlayer : MonoBehaviour
 {
 
+    [SerializeField] private float timePenalty = 2f;
     private AudioSource _killRegie;
 
     void Awake()
@@ -20,6 +21,7 @@ public class KillPlayer : MonoBehaviour
 
 
         _killRegie.Play();
+        Timer.Instance.DecreaseTime(timePenalty);
         player.Respawn();
     }
 }

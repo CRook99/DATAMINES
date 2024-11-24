@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
+
 using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class Timer : MonoBehaviour
     [SerializeField] private float _decreaseMultiplier;
     [SerializeField] private Image fill;
     private float _remainingTime;
+    private AudioSource _endGame;
+    
 
     public float Percent => _remainingTime / _maxTime;
     
@@ -19,6 +23,7 @@ public class Timer : MonoBehaviour
 
     void Awake()
     {
+        _endGame = GetComponent<AudioSource>();
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -41,6 +46,17 @@ public class Timer : MonoBehaviour
         if (_remainingTime <= 0)
         {
             OnDepletion?.Invoke();
+            StartCoroutine(Sequence());
+
+        }
+
+        IEnumerator Sequence()
+        {
+            _endGame.Play();
+            yield return new WaitForSeconds(1f);
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            int nextSceneIndex = (currentSceneIndex + 1) % SceneManager.sceneCountInBuildSettings;
+            SceneManager.LoadScene(nextSceneIndex); 
         }
     }
 
