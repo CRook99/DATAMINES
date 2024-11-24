@@ -31,6 +31,9 @@ namespace Entities.Player
         public float groundCheckRadius = 0.2f;
         public Transform groundCheck;
 
+        [SerializeField] private Animator _animator;
+        private static readonly int Speed = Animator.StringToHash("Speed");
+
         public delegate void SideSwitchHandler(Direction direction);
 
         public event SideSwitchHandler OnSideSwitch;
@@ -124,8 +127,12 @@ namespace Entities.Player
             if (Mathf.Abs(horizontal) > 0)
             {
                 _faceDirection = horizontal > 0 ? Direction.RIGHT : Direction.LEFT;
+                transform.localScale = new Vector3(_faceDirection == Direction.LEFT ? -1 : 1, transform.localScale.y,
+                    transform.localScale.z);
                 OnSideSwitch?.Invoke(_faceDirection);
             }
+            
+            _animator.SetFloat(Speed, Mathf.Abs(_rb.velocity.x));
         }
 
 
