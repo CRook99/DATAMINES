@@ -3,19 +3,20 @@ using System;
 using Entities.Player;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Entities.Resources
 {
     public class ResourcePoint : MonoBehaviour, IInteractable
     {
         [SerializeField] private ResourceScriptableObject resource;
-        [SerializeField] private SpriteRenderer renderer;
+        [SerializeField] private SpriteRenderer spriteRenderer;
         private PlayerInventory _playerInventory;
 
         private void Awake()
         {
             _playerInventory = FindObjectOfType<PlayerInventory>();
-            renderer.sprite = resource.DispenserSprite;
+            spriteRenderer.sprite = resource.DispenserSprite;
         }
 
         public void Interact()

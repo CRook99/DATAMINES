@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource: {fileID: 11400000, guid: b81b72fa180f2ef4c869acc0b54663f2, type: 2}
-  renderer: {fileID: 4222511836356926316}
+  spriteRenderer: {fileID: 4222511836356926316}
 --- !u!61 &160890153543744673
 BoxCollider2D:
   m_ObjectHideFlags: 0

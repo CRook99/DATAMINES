@@ -10,19 +10,21 @@ namespace Entities.Resources
     public class DropPoint : MonoBehaviour, IInteractable
     {
         [SerializeField] private TextMeshPro timerText;
+        [SerializeField] private SpriteRenderer timerBackRenderer;
         [SerializeField] private SpriteRenderer primaryRenderer;
         [SerializeField] private SpriteRenderer secondaryRenderer;
+        [SerializeField] private float _requestTimer;
+
         private ResourceScriptableObject _primaryResource;
         private ResourceScriptableObject _secondaryResource;
         private PlayerInventory _player;
-        [SerializeField] private float _requestTimer;
-
         public bool HasRequest => _requestTimer > 0f;
     
         private void Awake()
         {
             _player = FindObjectOfType<PlayerInventory>();
             timerText.enabled = false;
+            timerBackRenderer.enabled = false;
         }
 
         private void Update()
@@ -101,6 +103,7 @@ namespace Entities.Resources
             }
 
             timerText.text = Formatting.FormatTime(_requestTimer);
+            timerBackRenderer.enabled = HasRequest;
         }
     
         public void Interact()
