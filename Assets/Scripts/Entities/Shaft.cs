@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Entities.Player;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -92,5 +93,19 @@ public class Shaft : MonoBehaviour, IInteractable
             _shaftAudio.pitch = 1f; // Reset pitch to normal
         }
         OpenDoors();
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        var text = $"E - Travel";
+        InteractUI.Instance.Show(text);
+    }
+        
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+        InteractUI.Instance.Hide();
     }
 }

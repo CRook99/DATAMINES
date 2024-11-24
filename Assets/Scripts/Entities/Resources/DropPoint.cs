@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Entities.Player;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Formatting = Utils.Formatting;
@@ -127,6 +128,22 @@ namespace Entities.Resources
             {
                 ReceiveResource(resource);
             }
+
+            if (!HasRequest || _player.InventoryCount == 0) return;
+            InteractUI.Instance.Show("E - Deposit data");
+        }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (!other.CompareTag("Player") || !HasRequest || _player.InventoryCount == 0) return;
+            
+            InteractUI.Instance.Show("E - Deposit data");
+        }
+        
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (!other.CompareTag("Player")) return;
+            InteractUI.Instance.Hide();
         }
 
         public Sprite GetSprite(int num)

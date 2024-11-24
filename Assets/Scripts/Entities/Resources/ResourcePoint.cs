@@ -30,7 +30,7 @@ namespace Entities.Resources
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.TryGetComponent(out PlayerMovement _)) return;
+            if (!other.CompareTag("Player")) return;
 
             var text = $"E - Pick up {resource.Name}";
             InteractUI.Instance.Show(text);
@@ -38,7 +38,7 @@ namespace Entities.Resources
         
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (!other.TryGetComponent(out PlayerMovement _)) return;
+            if (!other.CompareTag("Player")) return;
             InteractUI.Instance.Hide();
         }
     }
