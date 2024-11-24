@@ -18,6 +18,7 @@ namespace UI
         private PlayerMovement _player;
         private Vector3 _desiredPosition;
         private Vector3 _currentPosition;
+        private HorizontalLayoutGroup _group;
 
         private void Awake()
         {
@@ -44,7 +45,7 @@ namespace UI
             
             Refresh(new List<ResourceScriptableObject>());
 
-            
+            _group = GetComponent<HorizontalLayoutGroup>();
         }
 
         private void Update()
@@ -64,7 +65,18 @@ namespace UI
 
         private void SideSwitch(Direction direction)
         {
-            offset.x = (direction == Direction.LEFT) ? Mathf.Abs(offset.x) : -Mathf.Abs(offset.x);
+            if (direction == Direction.LEFT)
+            {
+                offset.x = Mathf.Abs(offset.x);
+                _group.childAlignment = TextAnchor.MiddleLeft;
+                _group.reverseArrangement = false;
+            }
+            else
+            {
+                offset.x = -Mathf.Abs(offset.x);
+                _group.childAlignment = TextAnchor.MiddleRight;
+                _group.reverseArrangement = true;
+            }
         }
 
         public void Refresh(List<ResourceScriptableObject> resources)
