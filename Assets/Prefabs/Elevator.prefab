@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1009845447385348310}
   - component: {fileID: 4506523850441482431}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9123671549878205447}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,10 +163,7 @@ MonoBehaviour:
   rightWall: {fileID: 2512585220513057445}
   lowerTransform: {fileID: 0}
   upperTransform: {fileID: 0}
-  _levelHeight: 5
-  _minLevel: 0
-  _maxLevel: 5
-  _travelSpeed: 5
+  travelSpeed: 3
 --- !u!61 &3995416356685730556
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -196,7 +193,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.018930912, y: -0.30920708}
@@ -222,7 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 624347017295419035}
   - component: {fileID: 7680700638772447982}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,7 +296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 250131467534991447}
   - component: {fileID: 6730144984276716341}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +325,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7058593312259446435}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -376,7 +373,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1111624110239450496}
   - component: {fileID: 2512585220513057445}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -405,7 +402,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7334735031890372595}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:

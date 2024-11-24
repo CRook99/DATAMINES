@@ -5,78 +5,105 @@ using UnityEngine;
 
 public class PlatformHider : MonoBehaviour
 {
+    [SerializeField] private int set; // 0 or 1
+    [SerializeField] private float interval;
+    [SerializeField] private float solidTime;
+    [SerializeField] private int flashes;
 
-    [SerializeField] private float setHideInterval = 3f;
-    [SerializeField]  float setHideTimer = 1f; 
-    private bool _hiding;
-    public GameObject platform;
-    private SpriteRenderer spriteRenderer;
-    private Color originalColor;
-    private BoxCollider2D boxCollider;
-    private float _timer;
-    private float _hideTimer;
+    [SerializeField] private float solidFlashAlpha;
+    [SerializeField] private float clearFlashAlpha;
+    [SerializeField] private float clearAlpha;
     
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    private Color _clear;
+    private Color _clearFlash;
+    private Color _solid;
+    private Color _solidFlash;
+    
+    private BoxCollider2D _boxCollider;
     
     void Awake()
     {
-        _timer = setHideInterval;
-        _hideTimer = setHideTimer;
-        spriteRenderer = platform.GetComponent<SpriteRenderer>();
-        boxCollider = GetComponent<BoxCollider2D>();
-        if (spriteRenderer)
-        {
-            originalColor = spriteRenderer.color;
-        }
-    }
+        _boxCollider = GetComponent<BoxCollider2D>();
+        
+        _clear = _spriteRenderer.color;
+        _clear.a = clearAlpha;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (_hiding)
+        _clearFlash = _spriteRenderer.color;
+        _clearFlash.a = clearFlashAlpha;
+
+        _solidFlash = _spriteRenderer.color;
+        _solidFlash.a = solidFlashAlpha;
+
+        _solid = _spriteRenderer.color;
+
+        if (set == 0)
         {
-            _hideTimer -= Time.deltaTime;
-            if (_hideTimer <= 0)
-            {
-                _hiding = false;
-                ShowPlatform();
-                _hideTimer = setHideTimer;
-            }
-            return;
+            StartCoroutine(SolidSpan());
         }
-        _timer -= Time.deltaTime;
-        if (_timer <= 0)
+        else
         {
-            _timer = setHideInterval;
-            _hiding = true;
             HidePlatform();
+            StartCoroutine(ClearSpan());
         }
     }
 
+    IEnumerator SolidSpan()
+    {
+        yield return new WaitForSeconds(solidTime);
+
+        float flashTime = (interval - solidTime) / (flashes * 2);
+        for (int i = 0; i < flashes; i++)
+        {
+            _spriteRenderer.color = _solidFlash;
+            yield return new WaitForSeconds(flashTime);
+            _spriteRenderer.color = _solid;
+            yield return new WaitForSeconds(flashTime);
+        }
+
+        HidePlatform();
+        StartCoroutine(ClearSpan());
+    }
+
+    IEnumerator ClearSpan()
+    {
+        yield return new WaitForSeconds(solidTime);
+
+        float flashTime = (interval - solidTime) / (flashes * 2);
+        for (int i = 0; i < flashes; i++)
+        {
+            _spriteRenderer.color = _clearFlash;
+            yield return new WaitForSeconds(flashTime);
+            _spriteRenderer.color = _clear;
+            yield return new WaitForSeconds(flashTime);
+        }
+
+        ShowPlatform();
+        StartCoroutine(SolidSpan());
+    }
+    
     public void HidePlatform()
     {
-        if (spriteRenderer)
+        if (_spriteRenderer)
         {
-            Color transparentColor = spriteRenderer.color;
-            transparentColor.a = 0.2f;
-            spriteRenderer.color = transparentColor;
+            _spriteRenderer.color = _clear;
         }
     
-        if (boxCollider != null)
+        if (_boxCollider != null)
         {
-            Debug.Log("off");
-            boxCollider.enabled = false;
+            _boxCollider.enabled = false;
         }
     }
     
     public void ShowPlatform()
     {
-        if (spriteRenderer)
+        if (_spriteRenderer)
         {
-            spriteRenderer.color = originalColor;
+            _spriteRenderer.color = _solid;
         }
-        if (boxCollider != null)
+        if (_boxCollider != null)
         {
-            boxCollider.enabled = true;
+            _boxCollider.enabled = true;
             Physics2D.SyncTransforms();
         }
     }

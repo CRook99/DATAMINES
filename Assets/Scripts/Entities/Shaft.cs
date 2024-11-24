@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Entities.Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Shaft : MonoBehaviour, IInteractable
 {
@@ -10,12 +11,7 @@ public class Shaft : MonoBehaviour, IInteractable
     [SerializeField] private BoxCollider2D rightWall;
     [SerializeField] private Transform lowerTransform;
     [SerializeField] private Transform upperTransform;
-    
-    [Header("Movement Settings")]
-    [SerializeField] private float _levelHeight = 1f;
-    [SerializeField] private float _minLevel = -10f;
-    [SerializeField] private float _maxLevel = 10f;
-    [SerializeField] private float _travelSpeed = 3f;
+    [SerializeField] private float travelSpeed;
     
     private int _currentLevel; // 0 or 1
     private float _targetLevel;
@@ -55,10 +51,10 @@ public class Shaft : MonoBehaviour, IInteractable
         var targetY = _currentLevel == 0 ? upperTransform.position.y : lowerTransform.position.y;
         _isMoving = true;
         float elapsed = 0f;
-        while (elapsed < _travelSpeed)
+        while (elapsed < travelSpeed)
         {
             elapsed += Time.deltaTime;
-            var yPos = Mathf.Lerp(startY, targetY, elapsed / _travelSpeed);
+            var yPos = Mathf.Lerp(startY, targetY, elapsed / travelSpeed);
             transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
             yield return null;
         }

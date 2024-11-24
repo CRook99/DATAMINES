@@ -130,8 +130,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a31d589e3aa1b48fe884ea0941dedb37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setHideInterval: 3
-  setHideTimer: 3
+  set: 0
+  interval: 2
+  solidTime: 1.5
+  flashes: 3
+  solidFlashAlpha: 0.7
+  clearFlashAlpha: 0.4
+  clearAlpha: 0.1
+  _spriteRenderer: {fileID: 6576233194155742167}
   platform: {fileID: 7924352429212176729}
 --- !u!61 &7444849541737918290
 BoxCollider2D:
