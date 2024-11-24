@@ -19,6 +19,9 @@ namespace Entities.Resources
         private ResourceScriptableObject _primaryResource;
         private ResourceScriptableObject _secondaryResource;
         private PlayerInventory _player;
+        private AudioSource _depositError;
+        private AudioSource _depositSuccess;
+        
         public bool HasRequest => RequestTimer > 0f;
     
         private void Awake()
@@ -26,6 +29,8 @@ namespace Entities.Resources
             _player = FindObjectOfType<PlayerInventory>();
             timerText.enabled = false;
             timerBackRenderer.enabled = false;
+            _depositError = GetComponents<AudioSource>()[0]; 
+            _depositSuccess =  GetComponents<AudioSource>()[1]; 
         }
 
         private void Update()
@@ -110,6 +115,14 @@ namespace Entities.Resources
         public void Interact()
         {
             List<ResourceScriptableObject> taken = _player.TakeResources(_primaryResource, _secondaryResource);
+            if (taken.Count == 0)
+            {
+                _depositError.Play();
+            }
+            else
+            {
+                _depositSuccess.Play();
+            }
             foreach (var resource in taken)
             {
                 ReceiveResource(resource);
